@@ -29,7 +29,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class TileEntityAutoChisel extends TileEntity implements ISidedInventory {
 
 	public enum Upgrade {
-		SPEED, AUTOMATION, STACK, REVERSION;
+		SPEED,
+		AUTOMATION,
+		STACK,
+		REVERSION;
 
 		public String getUnlocalizedName() {
 			return ChiselItems.upgrade.getUnlocalizedName() + "_" + this.name().toLowerCase();
@@ -178,7 +181,8 @@ public class TileEntityAutoChisel extends TileEntity implements ISidedInventory 
 	private ItemStack getTarget() {
 		if (inventory[BASE] != null && hasUpgrade(Upgrade.REVERSION)) {
 			// if we have a reversion upgrade, use that for the target
-			return Carving.chisel.getItemsForChiseling(inventory[BASE]).get(0);
+			List<ItemStack> possible = Carving.chisel.getItemsForChiseling(inventory[BASE]);
+			return possible.isEmpty() ? null : possible.get(0);
 		} else {
 			return inventory[TARGET];
 		}
